@@ -1,0 +1,25 @@
+#include "mfs.h"
+
+int main() {
+  init();
+  initMFS();
+  Serial.begin(9600);
+
+  uint8_t num = 13;
+  uint8_t b;
+  uint32_t prevMillis = 0;
+
+  while (1) {
+    if (millis() > prevMillis + 500) {
+    prevMillis = millis();
+    num++;
+    }
+    writeDecToSegment(num);
+    uint8_t z = num;
+    for (int i = 0; i < 4; i++) {
+      b = z % 2;
+      z = z / 2;
+      digitalWrite(13 - i, !b);
+    }
+  }
+}
